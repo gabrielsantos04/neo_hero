@@ -9,6 +9,8 @@ class CharacterController < ApplicationController
     else
       render json: @character.errors, status: :unprocessable_entity
     end
+  rescue ActionController::ParameterMissing
+    render json: { error: 'Invalid parameters' }, status: :bad_request
   end
 
   def get_class_list
@@ -54,13 +56,13 @@ class CharacterController < ApplicationController
       return
     end
 
-    battle(char1, char2)
+    battle(char1.with_indifferent_access, char2.with_indifferent_access)
   end
 
   private
 
   def battle(char1, char2)
-    @battle_log = ["Battle bertween #{char1['name']} (#{char1['job']['class_name']}) - #{char1['current_health_points']} HP and #{char2['name']} (#{char2['job']['class_name']}) #{char2['current_health_points']} HP begins!"]
+    @battle_log = ["Battle between #{char1['name']} (#{char1['job']['class_name']}) - #{char1['current_health_points']} HP and #{char2['name']} (#{char2['job']['class_name']}) #{char2['current_health_points']} HP begins!"]
     turn_order = who_goes_first(char1, char2)
     battle_round(turn_order[0], turn_order[1])
   end
@@ -81,7 +83,7 @@ class CharacterController < ApplicationController
   def battle_round(attacker, defender)
     rounds = 1
     while attacker["alive"] && defender["alive"]
-      damage = Random.rand(0..attacker["job"]["attack_modifier"].to_i)
+      damage = Random.rand(0..attacker["job"]["attack_modifier"])
       defender["current_health_points"] -= damage
       @battle_log << "#{attacker['name']} attacks #{defender['name']} with #{spell_weapon(attacker["job"]["class_name"])} for #{damage} damage. #{defender['name']} has #{[defender['current_health_points'], 0].max} HP remaining."
 

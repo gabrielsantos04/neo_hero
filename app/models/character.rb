@@ -22,9 +22,9 @@ class Character
   def setup_character
     @errors = {}
     errors[:job] = 'is not valid' unless VALID_JOBS.include?(job.downcase)
-    errors[:name] = "can't be blank" if name.nil? || name.empty?
-    errors[:name] = 'is too long (maximum is 15 characters)' if name && name.length > 15
-    errors[:name] = 'can only contain letters and underscores' unless name && name =~ /\A[a-zA-Z_]+\z/
+    errors[:name_blank] = "can't be blank" if name.nil? || name.empty?
+    errors[:name_long] = 'is too long (maximum is 15 characters)' if name && name.length > 15
+    errors[:name_characters] = 'can only contain letters and underscores' unless name && name =~ /\A[a-zA-Z_]+\z/
 
     return if errors.any?
 
