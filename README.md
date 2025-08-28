@@ -175,6 +175,8 @@ To run a specific test file, use:
 docker compose run web bundle exec rspec path/to/your_spec_file.rb
 ```
 
+![Alt Text](public/request.gif)
+
 
 
 
