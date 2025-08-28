@@ -168,7 +168,7 @@ RSpec.describe CharacterController, type: :controller do
       allow(controller)
         .to receive(:characters_list).and_return([
                                                    char1.as_json.with_indifferent_access.merge(alive: alive1),
-                                                   char2.as_json.with_indifferent_accessbund.merge(alive: alive2)
+                                                   char2.as_json.with_indifferent_access.merge(alive: alive2)
                                                  ])
     end
 
