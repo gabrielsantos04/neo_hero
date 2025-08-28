@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  # Rails Web Application Service
+  web:
+    build: . # Tells Compose to build an image from the Dockerfile in the current directory
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server -b 0.0.0.0"
+    volumes:
+      - .:/app # Mounts your local app code into the container
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY} # Passes the master key from your environment
